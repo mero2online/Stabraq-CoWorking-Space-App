@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+</head>
+
+<body>
+    <div class="container py-3">
+        <div id="main-form">
+
+            <div class="row">
+
+                <div class="col-lg-6">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="inputGroup-sizing-default">User name</span>
+                        <input id="userName" type="text" class="form-control" aria-label="Sizing example input"
+                            aria-describedby="inputGroup-sizing-default">
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Mobile Number</span>
+                        <input id="mobNumber" type="text" class="form-control" aria-label="Sizing example input"
+                            aria-describedby="inputGroup-sizing-default">
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="text-center">
+                <input id="check-in" class="btn btn-primary mb-3" type="submit" value="Check In" data-action="Check In">
+                <input id="check-out" class="btn btn-primary mb-3" type="submit" value="Check Out"
+                    data-action="Check Out">
+            </div>
+
+        </div>
+
+        <div id="message">
+
+        </div>
+    </div>
+
+
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+
+    <script>
+        const checkInOutApp = {}
+
+        checkInOutApp.onLoad = function () {
+            checkInOutApp.form = document.getElementById("main-form")
+            checkInOutApp.userName = document.getElementById("userName")
+            checkInOutApp.mobNumber = document.getElementById("mobNumber")
+            checkInOutApp.checkIn = document.getElementById("check-in")
+            checkInOutApp.checkOut = document.getElementById("check-out")
+            checkInOutApp.message = document.getElementById("message")
+
+            checkInOutApp.form.addEventListener('submit', checkInOutApp.onSubmit)
+            checkInOutApp.checkIn.addEventListener('click', checkInOutApp.clickInOut)
+            checkInOutApp.checkOut.addEventListener('click', checkInOutApp.clickInOut)
+        }
+
+        checkInOutApp.onSubmit = function (e) {
+            e.preventDefault()
+        }
+        checkInOutApp.clickInOut = function (e) {
+            const payLoad = {
+                userName: checkInOutApp.userName.value,
+                mobNumber: checkInOutApp.mobNumber.value,
+                action: e.target.dataset.action
+            }
+            google.script.run.withSuccessHandler(function () {
+                checkInOutApp.userName.value = ""
+                checkInOutApp.mobNumber.value = ""
+            }).checkInOut(payLoad)
+        }
+
+        document.addEventListener("DOMContentLoaded", checkInOutApp.onLoad)
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script>
+</body>
+
+</html>
